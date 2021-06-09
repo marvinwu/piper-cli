@@ -4,7 +4,7 @@
   "description": "simple utility for transforming json arrays",
   "main": "index.js",
   "bin": {
-    "piper": "bin/cli"
+    "piper-cli": "bin/cli"
   },
   "scripts": {},
   "keywords": [],
