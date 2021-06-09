@@ -10,9 +10,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - name: bump version
-        run: |-
-          npm version patch
+      # - name: bump version
+      #   run: |-
+      #     npm version patch
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: $secrets.NPM_AUTH_TOKEN
