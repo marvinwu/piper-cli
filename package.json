@@ -1,13 +1,12 @@
 {
   "name": "piper-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "simple utility for transforming json arrays",
   "main": "bin/cli",
   "bin": {
     "piper-cli": "bin/cli"
   },
-    "repository": "marvinwu/piper-cli",
-
+  "repository": "marvinwu/piper-cli",
   "scripts": {},
   "keywords": [],
   "author": "Marvin Wu <pixelondesign@gmail.com>",
