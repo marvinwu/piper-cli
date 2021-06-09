@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+require('dotenv').config({ path: require('find-config')('.env') }) // eslint-disable-line
+const program = require('commander')
+const yaml = require('js-yaml')
+const fs = require('fs')
+const path = require('path')
+const axios = require('axios')
+const jsonfile = require('jsonfile')
+const flat = require('flat')
+const JSONStream = require('JSONStream')
+const _ = require('lodash')
+const slugify = require('voca/slugify')
+const inputStream = JSONStream.parse('*')
+process.stdin.pipe(inputStream)
+
+program
+  .command('flatten')
+  .option('-d, --delimiter [delimiter]', 'delimiter, default _, optional')
+  .option('-s, --safe', 'will not flatten arrays')
+  .action(options => {
+    const { delimiter = '_', safe = false } = options
+    const result = []
+    inputStream.on('data', data => {
+      result.push(flat(data, { delimiter, safe }))
+    })
+    inputStream.on('end', () => {
+      console.log(JSON.stringify(result))
+    })
+  })
+
+program.command('keys').action(options => {
+  const result = new Set([])
+  inputStream.on('data', data => {
+    Object.keys(data).map(key => result.add(key))
+  })
+  inputStream.on('end', () => {
+    console.log(JSON.stringify([...result]))
+  })
+})
+
+program
+  .command('keyBy <key>')
+  .option('-p, --pickBy <pick_by>]', 'pick property to key by')
+  .option('-rm, --removeOriginal', 'remove picked property, optinal')
+  .action((key, args) => {
+    const { pickBy, removeOriginal } = args
+    const result = []
+    inputStream.on('data', data => {
+      const output = _.keyBy(data[pickBy], key)
+      if (removeOriginal) {
+        delete data[pickBy]
+      }
+      result.push(Object.assign(data, output))
+    })
+    inputStream.on('end', () => {
+      console.log(JSON.stringify(result))
+    })
+  })
+
+program.command('split <key> <delimiter>').action((key, delimiter) => {
+  const result = []
+  inputStream.on('data', data => {
+    const output = flat(
+      {
+        [`_${key}_${slugify(delimiter)}`]: _.split(_.get(data, key), delimiter)
+      },
+      { delimiter: '_' }
+    )
+    result.push(Object.assign(data, output))
+  })
+  inputStream.on('end', () => {
+    console.log(JSON.stringify(result))
+  })
+})
+
+program.command('join <key> [delimiter]').action((key, delimiter) => {
+  const result = []
+  inputStream.on('data', data => {
+    const output = _.join(_.get(data, key), delimiter ? delimiter : '\n')
+    result.push(Object.assign(data, { [`_${key}`]: output }))
+  })
+  inputStream.on('end', () => {
+    console.log(JSON.stringify(result))
+  })
+})
+
+program.on('command:*', () => {
+  console.error(
+    'Invalid command: %s\nSee --help for a list of available commands.',
+    program.args.join(' ')
+  )
+  process.exit(1)
+})
+
+program.parse(process.argv)

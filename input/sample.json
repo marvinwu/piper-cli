@@ -1,0 +1,27 @@
+{
+  "steps": [
+    {
+      "dremio-mkdir": "testDataSet1"
+    },
+    {
+      "run": "node-fetch.fetch",
+      "param": {
+        "url": "https://my-json-server.typicode.com/typicode/demo/db"
+      }
+    },
+    {
+      "dremio-writeTable": {
+        "to": "testDataSet1.test123"
+      }
+    }
+  ],
+  "envs": {
+    "dremioIp": "${env:DREMIO_REMOTE_IP}",
+    "dremioUserName": "${env:DREMIO_USERNAME}",
+    "dremioPassWord": "${env:DREMIO_PASSWORD}",
+    "s3TempBucket": "hope-datalake",
+    "s3TempPrefix": "temp/transform/s3Dremio",
+    "dremioS3TempName": "s3",
+    "codaAPIKey": "${env:CODA_API_TOKEN}"
+  }
+}

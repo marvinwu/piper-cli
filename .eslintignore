@@ -1,0 +1,13 @@
+*.min.js
+node_modules/
+public
+docs
+dist
+static
+*test.js
+.cache
+templates
+tmp
+cli*.js
+sls-react-renderer
+_optimize

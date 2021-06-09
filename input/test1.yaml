@@ -1,0 +1,8 @@
+steps:
+- dremio-mkdir: testDataSet1
+- run: node-fetch.fetch
+  param:
+    url: https://my-json-server.typicode.com/typicode/demo/db
+- dremio-writeTable: 
+      to: testDataSet1.test123 # option to create reflection
+envs:

@@ -1,0 +1,29 @@
+# parse site raw data
+steps:
+- dremio-mkdir: best_succulent_test.posts
+- dremio-createVDS:
+      to: best_succulent_test.posts.raw_succulentandsunshine_alias_site
+      SQL: SELECT * FROM s3.raw.sitedb."succulentsandsunshine.com"
+- dremio-createVDS:
+      to: best_succulent_test.posts._site
+      SQL: SELECT * FROM best_succulent_test.posts.raw_succulentandsunshine_alias_site    
+- dremio-execSQL:
+      SQL: SELECT id, link,_site.content.rendered AS content FROM best_succulent_test.posts._site limit 1
+- forEach: parser-util.sliceHtmlByType
+  param: 
+    tag: heading
+  opt:  # pass to control function itself
+    pick: content
+    as: content_1
+- console-yaml:    
+# - forEach: transformUtil.flattenHelper
+# - forEach: parserUtil.splitHtmlByType
+#   param: 
+#     tag: heading
+#   opt:  # pass to control function itself
+#     pick: content_1_body
+#     as: content_1_body_array 
+# - dremio-writeTable: 
+#       to: best_succulent_test.posts._site_splitted_1
+envs:
+  codaAPIKey: ${env:CODA_API_TOKEN}
