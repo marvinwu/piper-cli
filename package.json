@@ -6,10 +6,12 @@
   "bin": {
     "piper-cli": "bin/cli"
   },
+    "repository": "marvinwu/piper-cli",
+
   "scripts": {},
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Marvin Wu <pixelondesign@gmail.com>",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "JSONStream": "^1.3.5",
     "axios": "^0.21.1",
