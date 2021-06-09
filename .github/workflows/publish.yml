@@ -11,6 +11,8 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_AUTH_TOKEN}}" > .npmrc
       - name: publish
         run: |-
+          ls -alt
+          cat .npmrc
           npm version patch
           npm publish
       - name: Commit and push if it changed
