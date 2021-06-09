@@ -12,7 +12,10 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm version patch
+      - run: |-
+              git config user.name "Automated"
+              git config user.email "actions@users.noreply.github.com"
+              npm version patch
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm install
