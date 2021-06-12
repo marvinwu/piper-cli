@@ -8,7 +8,8 @@
   },
   "repository": "marvinwu/piper-cli",
   "scripts": {
-  "test": "jest"},
+    "test": "jest"
+  },
   "keywords": [],
   "author": "Marvin Wu <pixelondesign@gmail.com>",
   "license": "BSD-2-Clause",
@@ -18,5 +19,8 @@
     "flat": "^5.0.2",
     "lodash": "^4.17.21",
     "voca": "^1.4.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.4"
   }
 }
