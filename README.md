@@ -31,3 +31,10 @@ Commands:
 
 
 ```
+
+## run
+
+cat sample.json | piper-cli run _.join "\n" --pick test --as hello
+
+cat sample.json | piper-cli run flatten "\n"
+
