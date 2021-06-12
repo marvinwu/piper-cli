@@ -21,3 +21,10 @@ test('basic helper pick as', async () => {
     const result = await runnerHelper(data, '_.split', ['_'], {pick: 'test', as: 'test2'})
     expect(result).toEqual( {"test": "hello_world", "test2": ["hello", "world"]})
 })
+
+
+test('basic helper pick empty', async () => {
+    const data = {test: 'hello_world'}
+    const result = await runnerHelper(data, '_.split', ['_'], {pick: 'test2', as: 'test3'})
+    expect(result).toEqual( { test: 'hello_world', test3: [ '' ] })
+})

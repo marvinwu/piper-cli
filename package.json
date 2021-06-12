@@ -13,14 +13,8 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "JSONStream": "^1.3.5",
-    "axios": "^0.21.1",
     "commander": "^7.2.0",
-    "concat-stream": "^2.0.0",
-    "dotenv": "^8.2.0",
-    "find-config": "^1.0.0",
     "flat": "^5.0.2",
-    "js-yaml": "^4.1.0",
-    "jsonfile": "^6.1.0",
     "lodash": "^4.17.21",
     "voca": "^1.4.0"
   }
