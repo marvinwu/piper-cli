@@ -1,33 +1,73 @@
+## purpose
 
-## avaliable commands
+a simple cli wrapper to process ndjson using well known packages such as lodash,voca and others
 
+## example
+### Lodash
 
+* using lodash keyBy function to process an nested array
+
+[Lodash](https://lodash.com/)
+
+```bash
+echo "{\"title\":\"hello:world \",\"testArray\":[\"1\",\"2\"],\"testNested\":[{\"title\":\"hello\",\"content\":\"hellooooooo\"},{\"title\":\"world\",\"content\":\"random test\"}]}" | ./bin/cli  _.keyBy title -p testNested -a keyed_testNested | jq
+{
+  "title": "hello:world ",
+  "testArray": [
+    "1",
+    "2"
+  ],
+  "testNested": [
+    {
+      "title": "hello",
+      "content": "hellooooooo"
+    },
+    {
+      "title": "world",
+      "content": "random test"
+    }
+  ],
+  "keyed_testNested": {
+    "hello": {
+      "title": "hello",
+      "content": "hellooooooo"
+    },
+    "world": {
+      "title": "world",
+      "content": "random test"
+    }
+  }
+}
 ```
 
-> piper-cli --help
+* use lodash split by function
 
-Usage: piper-cli [options] [command]
+```bash
+echo "{\"title\":\"hello:world \"}" | ./bin/cli  _.split : -p title
+```
 
-Options:
-  -h, --help               display help for command
+* use lodash join by function, join array by newline
 
-Commands:
-  flatten [options]
-    Usage: piper-cli flatten [options]
-    Options:
-      -d, --delimiter [delimiter]  delimiter, default _, optional
-      -s, --safe                   will not flatten arrays
-      -h, --help                   display help for command
+```bash
+echo "{\"test\":[\"hello\",\"world\"]}" | ./bin/cli  _.join $'\n' -p test -a test2
+{"test":["hello","world"],"test2":"hello\nworld"}
+```
 
-  keys # get the avaliable keys from a collections
-  keyBy [options] <key>
-    Usage: piper-cli keyBy [options] <key>
-    Options:
-      -p, --pickBy <pick_by>]  pick property to key by
-      -rm, --removeOriginal    remove picked property, optinal
-      -h, --help               display help for command
-  split <key> <delimiter>
-  join <key> [delimiter]
+* flatten
+
+[flat - npm](https://www.npmjs.com/package/flat)
+
+==can pass json paramter to flat function==
+
+```
+cat test/input/test3.json                      
+ {"some":"thing"}
+ {"foo":17,"bar":false,"quux":true}
+ {"may":{"include":"nested","objects":["and","arrays"]}}
 
 
+cat test/input/test3.json |  ./bin/cli  flat '{"safe":true,"delimiter":"!"}'
+{"some":"thing"}
+{"foo":17,"bar":false,"quux":true}
+{"may!include":"nested","may!objects":["and","arrays"]}
 ```
