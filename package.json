@@ -7,7 +7,8 @@
     "piper-cli": "bin/cli"
   },
   "repository": "marvinwu/piper-cli",
-  "scripts": {},
+  "scripts": {
+  "test": "jest"},
   "keywords": [],
   "author": "Marvin Wu <pixelondesign@gmail.com>",
   "license": "BSD-2-Clause",
