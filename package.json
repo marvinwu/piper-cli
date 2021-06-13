@@ -18,6 +18,7 @@
     "commander": "^7.2.0",
     "flat": "^5.0.2",
     "lodash": "^4.17.21",
+    "sqlite-async": "^1.1.1",
     "voca": "^1.4.0"
   },
   "devDependencies": {
