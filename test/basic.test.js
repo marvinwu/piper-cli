@@ -1,4 +1,5 @@
-const {runner,runnerHelper} = require('../lib/index')
+const {runner,runnerHelper,renderSQL,renderSQLHelper} = require('../lib/index')
+const Database = require('sqlite-async')
 
 
 test('basic execultor', async () => {
@@ -27,4 +28,19 @@ test('basic helper pick empty', async () => {
     const data = {test: 'hello_world'}
     const result = await runnerHelper(data, '_.split', ['_'], {pick: 'test2', as: 'test3'})
     expect(result).toEqual( { test: 'hello_world', test3: [ '' ] })
+})
+
+
+test('composeSql', async () => {
+    const dbConn = await Database.open('test/input/hello.db')
+    const query = `select * from hello_world where genus like '<%= genus %>'`
+    const result = await renderSQL({genus: 'adenia'},query, {dbConn} )
+    expect(result.length).toEqual(2)
+})
+
+
+test('renderSQLHelper', async () => {
+    const dbConn = await Database.open('test/input/hello.db')
+    const query = `select * from hello_world where genus like '<%= genus %>'`
+    const result = await renderSQLHelper({genus: 'adenia'},query, {dbConn, as:'query_result'} )
 })
