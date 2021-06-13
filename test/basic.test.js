@@ -39,8 +39,16 @@ test('composeSql', async () => {
 })
 
 
+test('composeSql-with-quote', async () => {
+    const dbConn = await Database.open('test/input/hello.db')
+    const query = `select * from hello_world where title like '%<%= genus %>%'`
+    const result = await renderSQL({genus: "'fairy"},query, {dbConn} )
+    expect(result.length).toEqual(2)
+})
+
 test('renderSQLHelper', async () => {
     const dbConn = await Database.open('test/input/hello.db')
     const query = `select * from hello_world where genus like '<%= genus %>'`
     const result = await renderSQLHelper({genus: 'adenia'},query, {dbConn, as:'query_result'} )
 })
+
