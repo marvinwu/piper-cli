@@ -10,7 +10,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: update change log
-        run:  px auto-changelog
+        run:  npx auto-changelog
       - name: Commit and push if it changed
         run: |-
           git config user.name "Automated"
