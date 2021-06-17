@@ -2,8 +2,10 @@
 const program = require('commander')
 const JSONStream = require('JSONStream')
 const Database = require('sqlite-async')
-const {runnerHelper,renderSQLHelper} = require('../lib/index')
+const {runnerHelper,renderSQLHelper,escaperSQL} = require('../lib/index')
 const inputStream = JSONStream.parse()
+const _ = require('lodash')
+
 process.stdin.pipe(inputStream)
 
 program.command('keys').action(options => {
@@ -27,7 +29,10 @@ program
     inputStream.on('data', data => {
       renderSQLHelper(data,SQL, {dbConn, as:key} ).then((data)=>{
         console.log(JSON.stringify(data))
-      }).catch(error=>console.error(error))
+      }).catch(error=>{
+        console.error(`${_.template(SQL)(escaperSQL(data))}`)
+        console.error(error)
+      })
     })
     inputStream.on('end', data => {
       dbConn.close()
