@@ -71,3 +71,9 @@ cat test/input/test3.json |  ./bin/cli  flat '{"safe":true,"delimiter":"!"}'
 {"foo":17,"bar":false,"quux":true}
 {"may!include":"nested","may!objects":["and","arrays"]}
 ```
+
+## compose SQL
+
+```bash
+ echo '{"genus": "adenia"}' | ./bin/cli compose -a 'hello' --db test/input/hello.db "select * from hello_world where genus like '<%= genus %>'" --key test
+```
