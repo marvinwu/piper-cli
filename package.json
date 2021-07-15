@@ -19,6 +19,7 @@
     "flat": "^5.0.2",
     "lodash": "^4.17.21",
     "sqlite-async": "^1.1.1",
+    "trafilatura-helper": "^1.0.0",
     "voca": "^1.4.0"
   },
   "devDependencies": {
