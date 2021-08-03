@@ -81,6 +81,15 @@ cat test/input/html-to-text.json | bin/cli 'html-to-text' -p html -a text
 #{"html":"<h1>Hello World</h1>","text":"HELLO WORLD"}
 ```
 
+### compromise
+cat test/input/nlp1.json | bin/cli compromise.topics.json -p text -a nlp
+
+
+### wink nlp
+
+cat test/input/nlp1.json | bin/cli wink-nlp.entities.out -p text -a nlp
+
+
 ## compose SQL
 
 ```bash
