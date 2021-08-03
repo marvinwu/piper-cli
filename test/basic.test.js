@@ -71,6 +71,12 @@ test('basic wink-nlp', async () => {
   ])
 })
 
+test('array-to-object', async () => {
+  const data = [{ a: 'b' }, { c: 'd' }]
+  const result = await runner(data, 'array-to-object')
+  expect(result).toEqual({ a: 'b', c: 'd' })
+})
+
 test('basic helper pick', async () => {
   const data = { test: 'hello_world' }
   const result = await runnerHelper(data, '_.split', ['_'], { pick: 'test' })

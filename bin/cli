@@ -2,54 +2,56 @@
 const program = require('commander')
 const JSONStream = require('JSONStream')
 const Database = require('sqlite-async')
-const {runnerHelper,renderSQLHelper,escaperSQL} = require('../lib/index')
+const { runnerHelper, renderSQLHelper, escaperSQL } = require('../lib/index')
 const inputStream = JSONStream.parse()
 const _ = require('lodash')
 
 process.stdin.pipe(inputStream)
 
-program.command('keys').action(options => {
+program.command('keys').action((options) => {
   const result = new Set([])
-  inputStream.on('data', data => {
-    Object.keys(data).map(key => result.add(key))
+  inputStream.on('data', (data) => {
+    Object.keys(data).map((key) => result.add(key))
   })
   inputStream.on('end', () => {
     console.log(JSON.stringify([...result]))
   })
 })
 
-
 program
   .command('compose <SQL>')
   .requiredOption('-k, --key <key>', 'key for the result query')
   .requiredOption('-d, --db <db>', 'path to sqlite db')
-  .action(async (SQL,options) => {
-    const {key, db} = options
+  .action(async (SQL, options) => {
+    const { key, db } = options
     const dbConn = await Database.open(db)
-    inputStream.on('data', data => {
-      renderSQLHelper(data,SQL, {dbConn, as:key} ).then((data)=>{
-        console.log(JSON.stringify(data))
-      }).catch(error=>{
-        console.error(`${_.template(SQL)(escaperSQL(data))}`)
-        console.error(error)
-      })
+    inputStream.on('data', (data) => {
+      renderSQLHelper(data, SQL, { dbConn, as: key })
+        .then((data) => {
+          console.log(JSON.stringify(data))
+        })
+        .catch((error) => {
+          console.error(`${_.template(SQL)(escaperSQL(data))}`)
+          console.error(error)
+        })
     })
-    inputStream.on('end', data => {
+    inputStream.on('end', (data) => {
       dbConn.close()
-    })    
+    })
   })
-
 
 program
   .arguments('<functionName> [params...]')
   .option('-p, --pick [pick]', 'pick property to process')
-  .option('-a, --as [as]', 'set result as')  
+  .option('-a, --as [as]', 'set result as')
   .action(async (functionName, params, options) => {
-    const {pick,as} = options
-    inputStream.on('data', data => {
-      runnerHelper(data,functionName, params, {pick,as}).then((data)=>{
-        console.log(JSON.stringify(data))
-      }).catch(error=>console.error(error))
+    const { pick, as } = options
+    inputStream.on('data', (data) => {
+      runnerHelper(data, functionName, params, { pick, as })
+        .then((data) => {
+          console.log(JSON.stringify(data))
+        })
+        .catch((error) => console.error(error))
     })
   })
 
