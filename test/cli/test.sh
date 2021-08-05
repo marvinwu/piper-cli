@@ -5,5 +5,8 @@ echo "{\"test\":[\"hello\",\"world\"]}" | ./bin/cli  _.join $'\n' -p test -a tes
 echo "{\"title\":\"hello:world \"}" | ./bin/cli  _.split : -p title
 cat test/input/array_to_object.json | jq -c '.[]' | bin/cli array-to-object -p quick_look
 cat test/input/array_to_object.json | jq -c '.[]' | bin/cli _.keyBy quick_look_title  -p quick_look 
+<<<<<<< HEAD
 cat test/input/array_to_object.json | jq -c '.[]' | bin/cli log  -p quick_look 
+=======
+>>>>>>> ded39afa93bfc353f1f429c55ce844d9bbdf012f
 # {"html":"<h1>Hello World</h1>","text":"HELLO WORLD"}
