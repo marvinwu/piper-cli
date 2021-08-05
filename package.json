@@ -1,6 +1,6 @@
 {
   "name": "piper-cli",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "simple utility for transforming json arrays",
   "main": "bin/cli",
   "bin": {
