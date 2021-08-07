@@ -2,7 +2,6 @@
 
 a simple cli wrapper to process ndjson using well known packages such as
 lodash,voca and others
-
 ## example
 
 ### Lodash
